@@ -1,0 +1,24 @@
+---
+haproxy:
+  path: haproxy
+  config_path: /opt/proxymgr/tmp/haproxy.cfg
+  socket_path: /opt/proxymgr/tmp/stats.sock
+  global:
+    - maxconn 4096
+    - log  127.0.0.1 local0
+    - log  127.0.0.1 local1 notice
+  defaults:
+    - log global
+    - option dontlognull
+    - maxconn 4096
+    - retries 3
+    - timeout connect 5s
+    - timeout client 1m
+    - timeout server 1m
+    - option redispatch
+    - balance roundrobin
+
+service_config:
+  type: zookeeper
+  servers: zookeeper1:2181,zookeeper2:2181,zookeeper3:2181
+  path: /services
